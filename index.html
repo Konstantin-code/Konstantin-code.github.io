@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Добрянский район</title>  <!-- сюда имя своего района-->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+</head>
+
+<body style="background-color: #F4F5F6;">
+<h1 style="text-align: center; font-family: 'Noto Sans', sans-serif;">Добрянский район</h1> <!-- сюда имя своего района-->
+<div id="mapid" style="width: 800px; height: 600px; margin: 0 auto"></div>
+
+<script>
+
+	//в [] коориданыт своего района, можете посмотреть на OpenStreetMap
+	//просто заходите на сайт, ищите район по поиску, жмакаете на него, когда отобразится на карте
+	//вам будут выданы его коордиаты, просто их вписываете в []
+	var mymap = L.map('mapid').setView([58.574, 57.098], 9);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+
+	//в " " ссылку на свой севрер/ows
+	var Dobryanka= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+        layers: 'web_gis:Dobryanka', //сюда свой слой
+			styles: 'web_gis:Dobryanka', //сюда свой стиль для данного слоя
+        format: 'image/png',
+        transparent: true
+    });
+    mymap.addLayer(Dobryanka);
+
+	//далее также, как описала на примере с Chast выше
+		var Forests= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+					layers: 'web_gis:Forests',
+					styles: 'web_gis:Forests',
+					format: 'image/png',
+					transparent: true
+			 });
+			 mymap.addLayer(Forests);
+
+			 //готово
+		var Water= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+					layers: 'web_gis:Water',
+					styles: 'web_gis:Water',
+					format: 'image/png',
+					transparent: true
+			});
+			mymap.addLayer(Water);
+
+			//готово
+			var Streams= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+		        layers: 'web_gis:Streams',
+						styles: 'web_gis:Streams',
+		        format: 'image/png',
+		        transparent: true
+		    });
+		    mymap.addLayer(Streams);
+
+				//готово
+				var Towns= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+							layers: 'web_gis:Towns',
+							styles: 'web_gis:Towns',
+							format: 'image/png',
+							transparent: true
+					});
+					mymap.addLayer(Towns);
+
+					//готово
+					var Roads= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+								layers: 'web_gis:Roads',
+								styles: 'web_gis:Roads',
+								format: 'image/png',
+								transparent: true
+						});
+						mymap.addLayer(Roads);
+						
+					var Railways= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+								layers: 'web_gis:Railways',
+								styles: 'web_gis:Railways',
+								format: 'image/png',
+								transparent: true
+						});
+						mymap.addLayer(Railways);ы
+
+						//готово
+					var Points= L.tileLayer.wms("http://soyconstserver-soyconstserver.4b63.pro-ap-southeast-2.openshiftapps.com/geoserver/ows", {
+								layers: 'web_gis:Points',
+								styles: 'web_gis:Points',
+								format: 'image/png',
+								transparent: true
+						});
+						mymap.addLayer(Points);
+
+
+	var popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+	}
+
+	mymap.on('click', onMapClick);
+</script>
+
+</body>
+</html>
